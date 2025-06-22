@@ -1,0 +1,79 @@
+{% extends "blog/base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="text-center mb-5">
+        <h1 class="display-4">Добро пожаловать в наш блог</h1>
+        <p class="lead">Лучшие статьи и новости</p>
+    </div>
+
+    <!-- Избранные посты -->
+    {% if featured_posts %}
+    <div class="row mb-5">
+        <div class="col-12">
+            <h2 class="mb-4 border-bottom pb-2">Избранные статьи</h2>
+        </div>
+        {% for post in featured_posts %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                {% if post.image %}
+                <img src="{{ post.image.url }}" class="card-img-top" alt="{{ post.title }}">
+                {% else %}
+                <div class="card-img-top bg-secondary text-white d-flex align-items-center justify-content-center" style="height: 200px;">
+                    <span>Нет изображения</span>
+                </div>
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ post.title }}</h5>
+                    <p class="card-text">{{ post.content|truncatechars:100 }}</p>
+                    <a href="{% url 'blog:post_detail' pk=post.pk %}" class="btn btn-primary">Читать далее</a>
+                </div>
+                <div class="card-footer text-muted">
+                    <small>Опубликовано: {{ post.created_at|date:"d M Y" }} | Автор: {{ post.author.username }}</small>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Последние посты -->
+    <div class="row">
+        <div class="col-12">
+            <h2 class="mb-4 border-bottom pb-2">Последние статьи</h2>
+        </div>
+        {% for post in latest_posts %}
+        <div class="col-lg-6 mb-4">
+            <div class="card">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        {% if post.image %}
+                        <img src="{{ post.image.url }}" class="img-fluid rounded-start" alt="{{ post.title }}">
+                        {% else %}
+                        <div class="bg-secondary text-white d-flex align-items-center justify-content-center h-100">
+                            <span>Нет изображения</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ post.title }}</h5>
+                            <p class="card-text">{{ post.content|truncatechars:120 }}</p>
+                            <a href="{% url 'blog:post_detail' pk=post.pk %}" class="btn btn-outline-primary btn-sm">Читать</a>
+                        </div>
+                        <div class="card-footer text-muted">
+                            <small>{{ post.created_at|date:"d M Y" }} | {{ post.author.username }}</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="text-center mt-5">
+        <a href="{% url 'blog:post_list' %}" class="btn btn-lg btn-outline-primary">Все статьи</a>
+    </div>
+</div>
+{% endblock %}

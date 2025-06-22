@@ -1,0 +1,20 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}{% if object %}Редактирование поста{% else %}Создание поста{% endif %}{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">{% if object %}Редактирование поста{% else %}Новый пост{% endif %}</h1>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">
+            {% if object %}Сохранить изменения{% else %}Создать пост{% endif %}
+        </button>
+        <a href="{% if object %}{% url 'blog:post_detail' object.pk %}{% else %}{% url 'blog:post_list' %}{% endif %}" class="btn btn-secondary">
+            Отмена
+        </a>
+    </form>
+</div>
+{% endblock %}

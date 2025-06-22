@@ -1,0 +1,8 @@
+<form method="post" class="mt-4">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label for="id_content" class="form-label">Ваш комментарий:</label>
+        <textarea name="content" class="form-control" id="id_content" rows="3"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Отправить</button>
+</form>
